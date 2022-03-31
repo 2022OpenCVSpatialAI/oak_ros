@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<launch>
+    <!-- <args for urdf/> -->
+    <arg name="camera_model"        default="OAK-D-LITE" /> <!-- 'zed' or 'zedm' -->
+    <arg name="parent_frame"        default="world" />
+    <arg name="rviz"                default="false" />
+
+    <!-- launch oak urdf -->
+    <include file="$(find depthai_bridge)/launch/urdf.launch">
+        <arg name="base_frame"      value="oak_scene_base"  />
+        <arg name="parent_frame"    value="$(arg  parent_frame)"/>
+        <arg name="camera_model"    value="$(arg  camera_model)"/>
+        <arg name="camera_name"     value="oak_scene" />
+        <arg name="cam_pos_x"       value="0.270"   />
+        <arg name="cam_pos_y"       value="0.450"   />
+        <arg name="cam_pos_z"       value="0.2"   />
+        <arg name="cam_roll"        value="0.0"    />
+        <arg name="cam_pitch"       value="0.3"   />
+        <arg name="cam_yaw"         value="-1.57"     />
+    </include>
+
+    <!-- launch node for OBJECT DETECTION -->
+    <node name="oak_scene" pkg="oak" type="oak_objects.py" output="screen" required="true" ns="oak">
+        <param name="node_name" value="object_det"/>
+        <param name="oak_id" value="1944301021A5EE1200"/>
+        <param name="oak_frame" value="oak_scene"/>
+        <param name="obj_det" value="True"/>
+        <param name="hand_det" value="True"/>
+    </node>       
+    
+    
+    <!-- Show in Rviz -->
+    <node name="rviz_javi" pkg="rviz" type="rviz" args="-d $(find oak)/rviz/scene.rviz" launch-prefix="xterm -e" if="$(arg rviz)"/> 
+
+</launch>
+

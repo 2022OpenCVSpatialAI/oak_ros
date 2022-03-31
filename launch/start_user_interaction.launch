@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<launch>
+    <!-- <args/> -->
+    <arg name="camera_model"        default="OAK-D-LITE" /> <!-- 'zed' or 'zedm' -->
+    <arg name="parent_frame"        default="world" />
+    <arg name="rviz"                default="false" />
+
+    <!-- launch oak urdf -->
+    <include file="$(find depthai_bridge)/launch/urdf.launch">
+        <arg name="base_frame"      value="oak_user_base"  />
+        <arg name="parent_frame"    value="$(arg  parent_frame)"/>
+        <arg name="camera_model"    value="$(arg  camera_model)"/>
+        <arg name="camera_name"     value="oak_user" />
+        <arg name="cam_pos_x"       value="-0.220"   />
+        <arg name="cam_pos_y"       value="0.370"   />
+        <arg name="cam_pos_z"       value="0.32"   />
+        <arg name="cam_roll"        value="0.0"    />
+        <arg name="cam_pitch"       value="0.0"   />
+        <arg name="cam_yaw"         value="0.0"     />
+    </include>
+    
+    <!-- launch and node for USER DETECTION -->
+    <node name="oak_user" pkg="oak" type="oak_user.py" output="screen" required="true" ns="oak">
+        <param name="node_name" value="user"/>
+        <param name="oak_id" value="18443010A12BBF1200"/>
+        <param name="oak_frame" value="oak_user"/>
+        <param name="face_det" value="True"/>
+        <param name="face_rec" value="True"/>
+        <param name="hand_det" value="True"/>
+        <param name="hand_landmarks" value="True"/>
+    </node>      
+    
+    
+    <!-- Show in Rviz -->
+    <node name="rviz_javi" pkg="rviz" type="rviz" args="-d $(find oak)/rviz/user_interaction.rviz" launch-prefix="xterm -e" if="$(arg rviz)"/> 
+
+</launch>
+
