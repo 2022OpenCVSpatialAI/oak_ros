@@ -6,7 +6,7 @@
         "input_size": "416x416",
         "NN_specific_metadata" :
         {
-            "classes" : 2,
+            "classes" : 3,
             "coordinates" : 4,
             "anchors" : [10,14, 23,27, 37,58, 81,82, 135,169, 344,319],
             "anchor_masks" :
@@ -23,6 +23,7 @@
         "labels":
         [
             "blue",
+            "green",
             "red"
         ]
     }

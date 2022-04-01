@@ -294,48 +294,49 @@ class oakPipeline:
             else:
                 self.flag_hand_marker = False
             
-            ''' DEPTH IMAGE PUBLISHER '''
-            depth_ci = CameraInfo()
-            depth_ci.width=self.oak.img_w
-            depth_ci.height=self.oak.img_h
-            M, d, R = self.oak.getCalibrationRight((self.oak.img_w,self.oak.img_h))
-            depth_ci.K = M.flatten().tolist()
-            depth_ci.D = d.tolist()
-            depth_ci.R = R.flatten().tolist()
-            depth_ci.P = depth_ci.K[0:4]+ [0.0] + depth_ci.K[4:6] + [0.0, 0.0, 0.0, 1.0, 0.0]
+            if depth_frame is not None:
+                ''' DEPTH IMAGE PUBLISHER '''
+                depth_ci = CameraInfo()
+                depth_ci.width=self.oak.img_w
+                depth_ci.height=self.oak.img_h
+                M, d, R = self.oak.getCalibrationRight((self.oak.img_w,self.oak.img_h))
+                depth_ci.K = M.flatten().tolist()
+                depth_ci.D = d.tolist()
+                depth_ci.R = R.flatten().tolist()
+                depth_ci.P = depth_ci.K[0:4]+ [0.0] + depth_ci.K[4:6] + [0.0, 0.0, 0.0, 1.0, 0.0]
             
-            depth_frame_msg = self.bridge.cv2_to_imgmsg(depth_frame, "16UC1")
-            depth_frame_msg.header.frame_id = self.oak_frame+"_right_camera_optical_frame"
-            depth_frame_msg.header.stamp = rospy.Time.now()
-            depth_frame_msg.is_bigendian = False
-            depth_frame_msg.encoding = "16UC1"
-            depth_frame_msg.height = self.oak.img_h
-            depth_frame_msg.width = self.oak.img_w
+                depth_frame_msg = self.bridge.cv2_to_imgmsg(depth_frame, "16UC1")
+                depth_frame_msg.header.frame_id = self.oak_frame+"_right_camera_optical_frame"
+                depth_frame_msg.header.stamp = rospy.Time.now()
+                depth_frame_msg.is_bigendian = False
+                depth_frame_msg.encoding = "16UC1"
+                depth_frame_msg.height = self.oak.img_h
+                depth_frame_msg.width = self.oak.img_w
             
-            self.pub_depth.publish(depth_frame_msg)
-            self.pub_depth_ci.publish(depth_ci)
+                self.pub_depth.publish(depth_frame_msg)
+                self.pub_depth_ci.publish(depth_ci)
             
+            if frame is not None:
+                ''' RGB CAMERA PUBLISHER '''            
+                frame_ci = CameraInfo()
+                frame_ci.width=self.oak.img_w
+                frame_ci.height=self.oak.img_h
+                M, d, R = self.oak.getCalibrationRGB((self.oak.img_w,self.oak.img_h))
+                frame_ci.K = M.flatten().tolist()
+                frame_ci.D = d.tolist()
+                frame_ci.R = R.flatten().tolist()
+                frame_ci.P = frame_ci.K[0:4]+ [0.0] + frame_ci.K[4:6] + [0.0, 0.0, 0.0, 1.0, 0.0]
             
-            ''' RGB CAMERA PUBLISHER '''            
-            frame_ci = CameraInfo()
-            frame_ci.width=self.oak.img_w
-            frame_ci.height=self.oak.img_h
-            M, d, R = self.oak.getCalibrationRGB((self.oak.img_w,self.oak.img_h))
-            frame_ci.K = M.flatten().tolist()
-            frame_ci.D = d.tolist()
-            frame_ci.R = R.flatten().tolist()
-            frame_ci.P = frame_ci.K[0:4]+ [0.0] + frame_ci.K[4:6] + [0.0, 0.0, 0.0, 1.0, 0.0]
+                frame_msg = self.bridge.cv2_to_imgmsg(frame, "8UC3")
+                frame_msg.header.frame_id = self.oak_frame+"_right_camera_optical_frame"
+                frame_msg.header.stamp = rospy.Time.now()
+                frame_msg.is_bigendian = False
+                frame_msg.encoding = "8UC3"
+                frame_msg.height = self.oak.img_h
+                frame_msg.width = self.oak.img_w
             
-            frame_msg = self.bridge.cv2_to_imgmsg(frame, "8UC3")
-            frame_msg.header.frame_id = self.oak_frame+"_right_camera_optical_frame"
-            frame_msg.header.stamp = rospy.Time.now()
-            frame_msg.is_bigendian = False
-            frame_msg.encoding = "8UC3"
-            frame_msg.height = self.oak.img_h
-            frame_msg.width = self.oak.img_w
-            
-            self.pub_rgb.publish(frame_msg)
-            self.pub_rgb_ci.publish(frame_ci)
+                self.pub_rgb.publish(frame_msg)
+                self.pub_rgb_ci.publish(frame_ci)
             
             
             ''' MARKERS PUBLISHERS '''

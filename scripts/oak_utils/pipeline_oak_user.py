@@ -179,8 +179,8 @@ class daiPipeline:
         self.stereo.setLeftRightCheck(True)
         self.stereo.setDepthAlign(dai.CameraBoardSocket.RGB)
         #self.stereo.setExtendedDisparity(True)
-        self.stereo.setSubpixel(True)  # subpixel True brings latency
-        #self.stereo.setMedianFilter(dai.MedianFilter.KERNEL_5x5)
+        #self.stereo.setSubpixel(True)  # subpixel True brings latency
+        self.stereo.setMedianFilter(dai.MedianFilter.KERNEL_7x7)
         
         ''' SPATIAL_LOCATION_CALCULATOR NODE '''
         self.spatial_location_calculator = pipeline.createSpatialLocationCalculator()
@@ -376,7 +376,7 @@ class daiPipeline:
         depth_frame = None
         facerec_result = None
         inference = None
-        self.hands = None
+        hands = None
 
         if self.pipeline_running:
             frameIn = self.frameQ.get()
@@ -384,7 +384,7 @@ class daiPipeline:
                 frame = frameIn.getCvFrame()
             
             depthIn = self.depthQ.get()
-            if frameIn is not None:
+            if depthIn is not None:
                 depth_frame = depthIn.getCvFrame()
                 
             if self.b_face_det:
@@ -399,18 +399,18 @@ class daiPipeline:
                 #if facerec_result is not None:
                 #    self.facerec_result = facerec_result
                 self.facerec_result = facerec_result
-            else:
-                self.facerec_result = None
+            # ~ else:
+                # ~ self.facerec_result = None
 
             
             if self.b_hand_det:
                 inference = self.q_pd_out.tryGet()
                 if inference is not None and frame is not None:
                     if self.b_hand_landmarks:
-                        self.hands = self.handTrack.process(frame, inference, self.q_lm_in, self.q_lm_out, self.q_hand_sp_data_out, self.q_hand_sp_cfg_in)
+                        hands = self.handTrack.process(frame, inference, self.q_lm_in, self.q_lm_out, self.q_hand_sp_data_out, self.q_hand_sp_cfg_in)
                     else:
-                        self.hands = self.handTrack.process(frame, inference, None, None, self.q_hand_sp_data_out, self.q_hand_sp_cfg_in)
-
+                        hands = self.handTrack.process(frame, inference, None, None, self.q_hand_sp_data_out, self.q_hand_sp_cfg_in)
+                    self.hands = hands
 
         return frame, depth_frame, self.facerec_result, self.hands
 

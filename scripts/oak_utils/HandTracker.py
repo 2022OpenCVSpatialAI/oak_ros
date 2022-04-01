@@ -163,13 +163,21 @@ class HandTracker:
         elif r.thumb_state == 0 and r.index_state == 0 and r.middle_state == 0 and r.ring_state == 0 and r.little_state == 0:
             r.gesture = "FIST"
         elif r.thumb_state == 1 and r.index_state == 0 and r.middle_state == 0 and r.ring_state == 0 and r.little_state == 0:
-            r.gesture = "ZOOM" 
+            print(r.landmarks[4])
+            if r.landmarks[4][0] < r.landmarks[17][0]-50:
+                r.gesture = "OK-right" 
+            elif r.landmarks[4][0] > r.landmarks[17][0]+50:
+                r.gesture = "OK-left" 
+            #elif r.landmarks[4][2] > r.landmarks[17][2]+5:
+            #    r.gesture = "OK-up" 
+            else:
+                r.gesture = "OK"
         elif r.thumb_state == 0 and r.index_state == 1 and r.middle_state == 1 and r.ring_state == 0 and r.little_state == 0:
             r.gesture = "PEACE"
         elif r.thumb_state == 0 and r.index_state == 1 and r.middle_state == 0 and r.ring_state == 0 and r.little_state == 0:
             r.gesture = "ONE"
         elif r.thumb_state == 1 and r.index_state == 1 and r.middle_state == 0 and r.ring_state == 0 and r.little_state == 0:
-            r.gesture = "ZOOM"
+            r.gesture = "TWO"
         elif r.thumb_state == 1 and r.index_state == 1 and r.middle_state == 1 and r.ring_state == 0 and r.little_state == 0:
             r.gesture = "THREE"
         elif r.thumb_state == 0 and r.index_state == 1 and r.middle_state == 1 and r.ring_state == 1 and r.little_state == 1:

@@ -1,6 +1,10 @@
 <?xml version="1.0"?>
 <launch>
 
+    <!-- start lego
+    <include file="$(find lego_inventor)/launch/robot.launch">
+    </include> -->
+
     <!-- start user detection node -->
     <include file="$(find oak)/launch/start_user_interaction.launch">
     </include>
