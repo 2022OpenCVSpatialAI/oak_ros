@@ -16,7 +16,7 @@ OBJECT_DETECTION_MODEL = str(SCRIPT_DIR / "./models/yolo_v4_tiny_sh4.blob")
 PALM_DETECTION_MODEL = str(SCRIPT_DIR / "./models/palm_detection_sh4.blob")
 SCRIPT_FILE = str(SCRIPT_DIR / "script.py")
 
-COLORS=[(255,0,0), (0,0,255), (0,255,0)]
+COLORS=[(255,0,0), (0,255,0), (0,0,255)]
 
 class daiPipeline:
     def __init__(self, 
@@ -167,7 +167,7 @@ class daiPipeline:
         self.stereo.setLeftRightCheck(True)
         self.stereo.setDepthAlign(dai.CameraBoardSocket.RGB)
         #self.stereo.setExtendedDisparity(True)
-        #self.stereo.setSubpixel(True)  # subpixel True brings latency
+        self.stereo.setSubpixel(True)  # subpixel True brings latency
         self.stereo.setMedianFilter(dai.MedianFilter.KERNEL_7x7)
         
         ''' SPATIAL_LOCATION_CALCULATOR NODE '''

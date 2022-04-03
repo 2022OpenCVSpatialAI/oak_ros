@@ -11,12 +11,12 @@
         <arg name="parent_frame"    value="$(arg  parent_frame)"/>
         <arg name="camera_model"    value="$(arg  camera_model)"/>
         <arg name="camera_name"     value="oak_user" />
-        <arg name="cam_pos_x"       value="-0.220"   />
-        <arg name="cam_pos_y"       value="0.370"   />
-        <arg name="cam_pos_z"       value="0.32"   />
+        <arg name="cam_pos_x"       value="-0.31"   />
+        <arg name="cam_pos_y"       value="0.27"   />
+        <arg name="cam_pos_z"       value="0.35"   />
         <arg name="cam_roll"        value="0.0"    />
         <arg name="cam_pitch"       value="0.0"   />
-        <arg name="cam_yaw"         value="0.0"     />
+        <arg name="cam_yaw"         value="-0.12"     />
     </include>
     
     <!-- launch and node for USER DETECTION -->

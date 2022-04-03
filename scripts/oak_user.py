@@ -185,12 +185,18 @@ class oakPipeline:
             if frame is not None and facerec_result is not None:
                 if self.b_face_rec:
                     self.user = facerec_result.name
-                    if self.user == 'UNKNOWN':
-                        self.user_color = (0,0,255)
-                    elif self.user is None:
-                        self.user_color = (255,0,0)
-                    else:
+                    # ~ if self.user == 'UNKNOWN':
+                        # ~ self.user_color = (0,0,255)
+                    # ~ elif self.user is None:
+                        # ~ self.user_color = (255,0,0)
+                    # ~ else:
+                        # ~ self.user_color = (0,255,0)
+
+                    if self.user == 'Javier':
                         self.user_color = (0,255,0)
+                    elif self.user == 'Arturo':
+                        self.user_color = (0,0,255)
+
                     
                 self.user_dist = facerec_result.xyz[2]/1000
                 

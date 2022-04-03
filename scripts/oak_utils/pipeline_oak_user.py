@@ -179,7 +179,7 @@ class daiPipeline:
         self.stereo.setLeftRightCheck(True)
         self.stereo.setDepthAlign(dai.CameraBoardSocket.RGB)
         #self.stereo.setExtendedDisparity(True)
-        #self.stereo.setSubpixel(True)  # subpixel True brings latency
+        self.stereo.setSubpixel(True)  # subpixel True brings latency
         self.stereo.setMedianFilter(dai.MedianFilter.KERNEL_7x7)
         
         ''' SPATIAL_LOCATION_CALCULATOR NODE '''

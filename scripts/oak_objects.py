@@ -52,9 +52,9 @@ def objDet_msg(oak, detection):
     msg.bbox.size_y = ySize
     
     # position
-    msg.position.x = detection.spatialCoordinates.x
-    msg.position.y = detection.spatialCoordinates.y
-    msg.position.z = detection.spatialCoordinates.z
+    msg.position.x = detection.spatialCoordinates.x/1000
+    msg.position.y = detection.spatialCoordinates.y/1000
+    msg.position.z = detection.spatialCoordinates.z/1000
 
     #print(msg)
     return msg
